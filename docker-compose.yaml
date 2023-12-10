@@ -1,0 +1,19 @@
+services:
+  serve:
+    build:
+      context: .
+      dockerfile: fastapi/Dockerfile.api
+    image: serveimage
+    depends_on:
+      - database
+    entrypoint:
+      ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+    ports:
+       - "8080:8080"
+  database:
+    build:
+      context: .
+      dockerfile: db/Dockerfile.db
+    image: databaseimage
+    entrypoint:
+      ["redis-server"]
